@@ -14,6 +14,11 @@ object MikkasModClient : ClientModInitializer {
 		// This entrypoint is suitable for setting up client-specific logic, such as rendering.
         EntityRendererRegistry.register(ModEntities.BACKROOMS_MONSTER, ::BackroomsMonsterRenderer)
         EntityRendererRegistry.register(ModEntities.BACKROOMS_BOSS, ::BackroomsBossRenderer)
+        EntityRendererRegistry.register(ModEntities.SMILER, ::SmilerRenderer)
         EntityModelLayerRegistry.registerModelLayer(ModModelLayers.BACKROOMS_MONSTER) { BackroomsMonsterModel.createBodyLayer() }
-	}
+        
+        net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents.END_CLIENT_TICK.register { 
+            com.mikka.mod.client.ClientSoundSilencer.tick()
+        }
+    }
 }

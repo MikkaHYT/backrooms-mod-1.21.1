@@ -27,8 +27,17 @@ object ModEntities {
             .build()
     )
 
+    val SMILER: EntityType<SmilerEntity> = Registry.register(
+        BuiltInRegistries.ENTITY_TYPE,
+        ResourceLocation.fromNamespaceAndPath("mikkas-mod", "smiler"),
+        FabricEntityTypeBuilder.create(MobCategory.MONSTER, ::SmilerEntity)
+            .dimensions(EntityDimensions.fixed(0.6f, 2.9f))
+            .build()
+    )
+
     fun registerEntities() {
         FabricDefaultAttributeRegistry.register(BACKROOMS_MONSTER, BackroomsMonsterEntity.createMonsterAttributes())
         FabricDefaultAttributeRegistry.register(BACKROOMS_BOSS, BackroomsBossEntity.createBossAttributes())
+        FabricDefaultAttributeRegistry.register(SMILER, SmilerEntity.createSmilerAttributes())
     }
 }
