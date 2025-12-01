@@ -1,0 +1,37 @@
+
+> Configure project :
+Fabric Loom: 1.13.6
+
+> Task :checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :processResources UP-TO-DATE
+
+> Task :compileKotlin FAILED
+e: file:///D:/Users/mikka/Documents/Development/mikkas-mod/mikkas-mod-template-1.21.1/src/main/kotlin/com/mikka/mod/block/FlickeringLightBlock.kt:16:1 Class 'FlickeringLightBlock' is not abstract and does not implement abstract base class member:
+fun codec(): MapCodec<out BaseEntityBlock!>!
+e: file:///D:/Users/mikka/Documents/Development/mikkas-mod/mikkas-mod-template-1.21.1/src/main/kotlin/com/mikka/mod/block/ModBlocks.kt:23:116 Cannot infer type for type parameter 'V'. Specify it explicitly.
+e: file:///D:/Users/mikka/Documents/Development/mikkas-mod/mikkas-mod-template-1.21.1/src/main/kotlin/com/mikka/mod/block/ModBlocks.kt:23:116 Cannot infer type for type parameter 'T'. Specify it explicitly.
+e: file:///D:/Users/mikka/Documents/Development/mikkas-mod/mikkas-mod-template-1.21.1/src/main/kotlin/com/mikka/mod/block/ModBlocks.kt:26:95 Cannot infer type for type parameter 'T'. Specify it explicitly.
+e: file:///D:/Users/mikka/Documents/Development/mikkas-mod/mikkas-mod-template-1.21.1/src/main/kotlin/com/mikka/mod/block/ModBlocks.kt:26:104 Unresolved reference 'com'.
+e: file:///D:/Users/mikka/Documents/Development/mikkas-mod/mikkas-mod-template-1.21.1/src/main/kotlin/com/mikka/mod/block/ModBlocks.kt:26:108 Unresolved reference 'mikka'.
+e: file:///D:/Users/mikka/Documents/Development/mikkas-mod/mikkas-mod-template-1.21.1/src/main/kotlin/com/mikka/mod/block/ModBlocks.kt:26:118 Unresolved reference 'block'.
+e: file:///D:/Users/mikka/Documents/Development/mikkas-mod/mikkas-mod-template-1.21.1/src/main/kotlin/com/mikka/mod/block/entity/FlickeringLightBlockEntity.kt:20:48 Unresolved reference 'client'.
+e: file:///D:/Users/mikka/Documents/Development/mikkas-mod/mikkas-mod-template-1.21.1/src/main/kotlin/com/mikka/mod/block/entity/FlickeringLightBlockEntity.kt:21:50 Unresolved reference 'distanceToSqr'.
+e: file:///D:/Users/mikka/Documents/Development/mikkas-mod/mikkas-mod-template-1.21.1/src/main/kotlin/com/mikka/mod/block/entity/FlickeringLightBlockEntity.kt:22:39 Unresolved reference 'client'.
+e: file:///D:/Users/mikka/Documents/Development/mikkas-mod/mikkas-mod-template-1.21.1/src/main/kotlin/com/mikka/mod/entity/SmilerEntity.kt:58:71 Unresolved reference 'getAdvancement'.
+e: file:///D:/Users/mikka/Documents/Development/mikkas-mod/mikkas-mod-template-1.21.1/src/main/kotlin/com/mikka/mod/entity/SmilerEntity.kt:59:92 Argument type mismatch: actual type is 'Any', but 'AdvancementHolder!' was expected.
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileKotlin'.
+> A failure occurred while executing org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
+   > Compilation error. See log for more details
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to generate a Build Scan (Powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 5s
+2 actionable tasks: 1 executed, 1 up-to-date

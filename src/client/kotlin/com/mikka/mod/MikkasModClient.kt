@@ -8,6 +8,7 @@ import com.mikka.mod.entity.client.ModModelLayers
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry
+import com.mikka.mod.client.renderer.SmilerRenderer
 
 object MikkasModClient : ClientModInitializer {
 	override fun onInitializeClient() {

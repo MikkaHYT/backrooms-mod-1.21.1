@@ -13,17 +13,7 @@ class FlickeringLightBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity
 
     companion object {
         fun tick(level: Level, pos: BlockPos, state: BlockState, entity: FlickeringLightBlockEntity) {
-            if (level.isClientSide) {
-                val isLit = state.getValue(FlickeringLightBlock.LIT)
-                if (!isLit) {
-                    // Check distance to player
-                    val player = net.minecraft.client.Minecraft.getInstance().player
-                    if (player != null && player.distanceToSqr(pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble()) < 256.0) { // 16 blocks
-                        com.mikka.mod.client.ClientSoundSilencer.requestSilence()
-                    }
-                }
-                return
-            }
+            if (level.isClientSide) return
 
             entity.flickerTimer++
             if (entity.flickerTimer > 20 * 10 + level.random.nextInt(20 * 20)) { // Random interval 10-30s

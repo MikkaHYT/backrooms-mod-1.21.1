@@ -55,7 +55,7 @@ class SmilerEntity(entityType: EntityType<out Monster>, level: Level) : Monster(
                     // We can check the nearest player's advancement?
                     val player = level.getNearestPlayer(pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble(), 128.0, false)
                     if (player is net.minecraft.server.level.ServerPlayer) {
-                         val advancement = player.server.advancements.getAdvancement(net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("mikkas-mod", "backrooms/boss_defeated"))
+                         val advancement = player.server.advancements.get(net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("mikkas-mod", "backrooms/boss_defeated"))
                          if (advancement != null && player.advancements.getOrStartProgress(advancement).isDone) {
                              return false // Boss defeated, don't spawn
                          }

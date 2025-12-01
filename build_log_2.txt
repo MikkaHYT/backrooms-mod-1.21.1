@@ -1,0 +1,31 @@
+
+> Configure project :
+Fabric Loom: 1.13.6
+
+> Task :checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :processResources UP-TO-DATE
+
+> Task :compileKotlin
+w: file:///D:/Users/mikka/Documents/Development/mikkas-mod/mikkas-mod-template-1.21.1/src/main/kotlin/com/mikka/mod/block/ModBlocks.kt:28:66 'class FabricBlockEntityTypeBuilder<T : BlockEntity!> : Any' is deprecated. Deprecated in Java.
+w: file:///D:/Users/mikka/Documents/Development/mikkas-mod/mikkas-mod-template-1.21.1/src/main/kotlin/com/mikka/mod/block/ModBlocks.kt:28:95 'static fun <T : BlockEntity!> create(factory: FabricBlockEntityTypeBuilder.Factory<out T!>!, vararg blocks: Block!): FabricBlockEntityTypeBuilder<T!>!' is deprecated. Deprecated in Java.
+w: file:///D:/Users/mikka/Documents/Development/mikkas-mod/mikkas-mod-template-1.21.1/src/main/kotlin/com/mikka/mod/block/ModBlocks.kt:28:150 'fun build(): BlockEntityType<FlickeringLightBlockEntity!>!' is deprecated. Deprecated in Java.
+w: file:///D:/Users/mikka/Documents/Development/mikkas-mod/mikkas-mod-template-1.21.1/src/main/kotlin/com/mikka/mod/entity/ModEntities.kt:5:8 'class FabricEntityTypeBuilder<T : Entity!> : Any' is deprecated. Deprecated in Java.
+w: file:///D:/Users/mikka/Documents/Development/mikkas-mod/mikkas-mod-template-1.21.1/src/main/kotlin/com/mikka/mod/entity/ModEntities.kt:17:9 'class FabricEntityTypeBuilder<T : Entity!> : Any' is deprecated. Deprecated in Java.
+w: file:///D:/Users/mikka/Documents/Development/mikkas-mod/mikkas-mod-template-1.21.1/src/main/kotlin/com/mikka/mod/entity/ModEntities.kt:17:33 'static fun <T : Entity!> create(spawnGroup: MobCategory!, factory: EntityType.EntityFactory<T!>!): FabricEntityTypeBuilder<T!>!' is deprecated. Deprecated in Java.
+w: file:///D:/Users/mikka/Documents/Development/mikkas-mod/mikkas-mod-template-1.21.1/src/main/kotlin/com/mikka/mod/entity/ModEntities.kt:18:14 'fun dimensions(dimensions: EntityDimensions!): FabricEntityTypeBuilder<BackroomsMonsterEntity!>!' is deprecated. Deprecated in Java.
+w: file:///D:/Users/mikka/Documents/Development/mikkas-mod/mikkas-mod-template-1.21.1/src/main/kotlin/com/mikka/mod/entity/ModEntities.kt:19:14 'fun build(): EntityType<BackroomsMonsterEntity!>!' is deprecated. Deprecated in Java.
+w: file:///D:/Users/mikka/Documents/Development/mikkas-mod/mikkas-mod-template-1.21.1/src/main/kotlin/com/mikka/mod/entity/ModEntities.kt:25:9 'class FabricEntityTypeBuilder<T : Entity!> : Any' is deprecated. Deprecated in Java.
+w: file:///D:/Users/mikka/Documents/Development/mikkas-mod/mikkas-mod-template-1.21.1/src/main/kotlin/com/mikka/mod/entity/ModEntities.kt:25:33 'static fun <T : Entity!> create(spawnGroup: MobCategory!, factory: EntityType.EntityFactory<T!>!): FabricEntityTypeBuilder<T!>!' is deprecated. Deprecated in Java.
+w: file:///D:/Users/mikka/Documents/Development/mikkas-mod/mikkas-mod-template-1.21.1/src/main/kotlin/com/mikka/mod/entity/ModEntities.kt:26:14 'fun dimensions(dimensions: EntityDimensions!): FabricEntityTypeBuilder<BackroomsBossEntity!>!' is deprecated. Deprecated in Java.
+w: file:///D:/Users/mikka/Documents/Development/mikkas-mod/mikkas-mod-template-1.21.1/src/main/kotlin/com/mikka/mod/entity/ModEntities.kt:27:14 'fun build(): EntityType<BackroomsBossEntity!>!' is deprecated. Deprecated in Java.
+w: file:///D:/Users/mikka/Documents/Development/mikkas-mod/mikkas-mod-template-1.21.1/src/main/kotlin/com/mikka/mod/entity/ModEntities.kt:33:9 'class FabricEntityTypeBuilder<T : Entity!> : Any' is deprecated. Deprecated in Java.
+w: file:///D:/Users/mikka/Documents/Development/mikkas-mod/mikkas-mod-template-1.21.1/src/main/kotlin/com/mikka/mod/entity/ModEntities.kt:33:33 'static fun <T : Entity!> create(spawnGroup: MobCategory!, factory: EntityType.EntityFactory<T!>!): FabricEntityTypeBuilder<T!>!' is deprecated. Deprecated in Java.
+w: file:///D:/Users/mikka/Documents/Development/mikkas-mod/mikkas-mod-template-1.21.1/src/main/kotlin/com/mikka/mod/entity/ModEntities.kt:34:14 'fun dimensions(dimensions: EntityDimensions!): FabricEntityTypeBuilder<SmilerEntity!>!' is deprecated. Deprecated in Java.
+w: file:///D:/Users/mikka/Documents/Development/mikkas-mod/mikkas-mod-template-1.21.1/src/main/kotlin/com/mikka/mod/entity/ModEntities.kt:35:14 'fun build(): EntityType<SmilerEntity!>!' is deprecated. Deprecated in Java.
+w: file:///D:/Users/mikka/Documents/Development/mikkas-mod/mikkas-mod-template-1.21.1/src/main/kotlin/com/mikka/mod/entity/SmilerEntity.kt:111:40 This property hides Java field 'field mob: PathfinderMob!' thus making it inaccessible.
+
+> Task :compileJava UP-TO-DATE
+> Task :classes UP-TO-DATE
+
+BUILD SUCCESSFUL in 11s
+3 actionable tasks: 1 executed, 2 up-to-date

@@ -38,4 +38,8 @@ class FlickeringLightBlock(properties: Properties) : BaseEntityBlock(properties)
     override fun <T : BlockEntity?> getTicker(level: Level, state: BlockState, type: BlockEntityType<T>): BlockEntityTicker<T>? {
         return createTickerHelper(type, ModBlocks.FLICKERING_LIGHT_ENTITY, FlickeringLightBlockEntity::tick)
     }
+
+    override fun codec(): com.mojang.serialization.MapCodec<FlickeringLightBlock> {
+        return simpleCodec(::FlickeringLightBlock)
+    }
 }
