@@ -1,0 +1,19 @@
+package com.mikka.mod
+
+import com.mikka.mod.entity.ModEntities
+import com.mikka.mod.entity.client.BackroomsBossRenderer
+import com.mikka.mod.entity.client.BackroomsMonsterModel
+import com.mikka.mod.entity.client.BackroomsMonsterRenderer
+import com.mikka.mod.entity.client.ModModelLayers
+import net.fabricmc.api.ClientModInitializer
+import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry
+import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry
+
+object MikkasModClient : ClientModInitializer {
+	override fun onInitializeClient() {
+		// This entrypoint is suitable for setting up client-specific logic, such as rendering.
+        EntityRendererRegistry.register(ModEntities.BACKROOMS_MONSTER, ::BackroomsMonsterRenderer)
+        EntityRendererRegistry.register(ModEntities.BACKROOMS_BOSS, ::BackroomsBossRenderer)
+        EntityModelLayerRegistry.registerModelLayer(ModModelLayers.BACKROOMS_MONSTER) { BackroomsMonsterModel.createBodyLayer() }
+	}
+}

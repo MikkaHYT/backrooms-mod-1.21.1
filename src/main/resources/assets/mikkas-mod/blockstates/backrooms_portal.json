@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "mikkas-mod:block/backrooms_portal_ns"
+    },
+    "axis=z": {
+      "model": "mikkas-mod:block/backrooms_portal_ew"
+    }
+  }
+}

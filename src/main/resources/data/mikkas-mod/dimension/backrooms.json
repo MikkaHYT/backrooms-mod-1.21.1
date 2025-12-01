@@ -1,0 +1,10 @@
+{
+  "type": "mikkas-mod:backrooms_type",
+  "generator": {
+    "type": "mikkas-mod:backrooms",
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "mikkas-mod:backrooms_biome"
+    }
+  }
+}

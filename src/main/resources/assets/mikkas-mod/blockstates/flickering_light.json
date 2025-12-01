@@ -1,0 +1,10 @@
+{
+    "variants": {
+        "lit=true": {
+            "model": "mikkas-mod:block/flickering_light_on"
+        },
+        "lit=false": {
+            "model": "mikkas-mod:block/flickering_light_off"
+        }
+    }
+}
