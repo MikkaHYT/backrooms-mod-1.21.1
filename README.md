@@ -30,7 +30,7 @@ A Fabric mod for Minecraft 1.21.1 that brings the eerie and liminal world of the
 
 1. Download and install **Fabric Loader** for Minecraft 1.21.1.
 2. Download the **Fabric API** mod and place it in your `mods` folder.
-3. Download the latest release of **Mikka's Backrooms Mod** and place it in your `mods` folder.
+3. Download the latest release of **Mikka's Backrooms Mod** from [Releases](https://github.com/MikkaHYT/backrooms-mod-1.21.1/releases) and place it in your `mods` folder.
 4. Launch the game and enjoy!
 
 ## Development
