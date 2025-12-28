@@ -178,11 +178,11 @@ class BackroomsPortalBlock(properties: Properties) : Block(properties) {
                     var targetPos = player.blockPosition()
                     
                     if (resourceKey == ModDimensions.BACKROOMS_DIMENSION_KEY) {
-                        // Entering the Backrooms - save the entry position
-                        val persistentData = player.persistentData
-                        persistentData.putInt("BackroomsEntryX", pos.x)
-                        persistentData.putInt("BackroomsEntryY", pos.y)
-                        persistentData.putInt("BackroomsEntryZ", pos.z)
+                        // Entering the Backrooms - save the entry position using player's custom data
+                        val customData = player.customData
+                        customData.putInt("BackroomsEntryX", pos.x)
+                        customData.putInt("BackroomsEntryY", pos.y)
+                        customData.putInt("BackroomsEntryZ", pos.z)
                         
                         // Find safe spot in Backrooms
                         // Randomize X/Z to support multiplayer spawning
@@ -207,11 +207,11 @@ class BackroomsPortalBlock(properties: Properties) : Block(properties) {
                         targetPos = BlockPos(centerX, targetY, centerZ)
                     } else {
                         // Going back to Overworld - retrieve saved entry position
-                        val persistentData = player.persistentData
-                        if (persistentData.contains("BackroomsEntryX")) {
-                            val entryX = persistentData.getInt("BackroomsEntryX")
-                            val entryY = persistentData.getInt("BackroomsEntryY")
-                            val entryZ = persistentData.getInt("BackroomsEntryZ")
+                        val customData = player.customData
+                        if (customData.contains("BackroomsEntryX")) {
+                            val entryX = customData.getInt("BackroomsEntryX")
+                            val entryY = customData.getInt("BackroomsEntryY")
+                            val entryZ = customData.getInt("BackroomsEntryZ")
                             targetPos = BlockPos(entryX, entryY, entryZ)
                         } else {
                             // Fallback: spawn at world spawn

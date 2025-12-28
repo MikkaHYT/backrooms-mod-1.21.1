@@ -59,7 +59,7 @@ class BackroomsBossEntity(entityType: EntityType<out Monster>, level: Level) : M
 
     init {
         // Make the boss persistent - it will never despawn
-        this.setPersistenceRequired(true)
+        this.setPersistenceRequired()
     }
     
     fun setBossRoomCenter(x: Int, z: Int) {

@@ -31,7 +31,7 @@ class BackroomsCompassItem : Item(Properties().stacksTo(1)) {
             if (!isBackrooms) {
                 player.sendSystemMessage(Component.literal("The compass spins wildly... It only works in the Backrooms.")
                     .withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC))
-                player.playNotifySound(SoundEvents.COMPASS_LOOP, SoundSource.PLAYERS, 1.0f, 0.5f)
+                player.playNotifySound(SoundEvents.NOTE_BLOCK_PLING.value(), SoundSource.PLAYERS, 1.0f, 0.5f)
                 return InteractionResultHolder.fail(stack)
             }
             
