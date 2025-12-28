@@ -151,20 +151,20 @@ class BackroomsBossEntity(entityType: EntityType<out Monster>, level: Level) : M
 
     override fun dropCustomDeathLoot(serverLevel: ServerLevel, damageSource: DamageSource, hitByPlayer: Boolean) {
         super.dropCustomDeathLoot(serverLevel, damageSource, hitByPlayer)
-        if (hitByPlayer) {
-            this.spawnAtLocation(ItemStack(ModItems.CORRUPTED_SWORD))
-            this.spawnAtLocation(ItemStack(ModItems.LIGHTNING_STICK))
-            
-            // Grant Advancement to all nearby players
-            val players = serverLevel.getEntitiesOfClass(net.minecraft.server.level.ServerPlayer::class.java, this.boundingBox.inflate(100.0))
-            val advancement = serverLevel.server.advancements.get(net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("mikkas-mod", "backrooms/boss_defeated"))
-            if (advancement != null) {
-                players.forEach { player ->
-                    val progress = player.advancements.getOrStartProgress(advancement)
-                    if (!progress.isDone) {
-                        progress.remainingCriteria.forEach { criterion ->
-                            player.advancements.award(advancement, criterion)
-                        }
+        
+        // Always drop boss items regardless of who killed it
+        this.spawnAtLocation(ItemStack(ModItems.CORRUPTED_SWORD))
+        this.spawnAtLocation(ItemStack(ModItems.LIGHTNING_STICK))
+        
+        // Grant Advancement to all nearby players (100 block radius)
+        val players = serverLevel.getEntitiesOfClass(net.minecraft.server.level.ServerPlayer::class.java, this.boundingBox.inflate(100.0))
+        val advancement = serverLevel.server.advancements.get(net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("mikkas-mod", "backrooms/boss_defeated"))
+        if (advancement != null) {
+            players.forEach { player ->
+                val progress = player.advancements.getOrStartProgress(advancement)
+                if (!progress.isDone) {
+                    progress.remainingCriteria.forEach { criterion ->
+                        player.advancements.award(advancement, criterion)
                     }
                 }
             }

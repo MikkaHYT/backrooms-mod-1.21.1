@@ -2,27 +2,27 @@
   "parent": "mikkas-mod:backrooms/root",
   "display": {
     "icon": {
-      "id": "mikkas-mod:corrupted_sword"
+      "id": "minecraft:ender_pearl"
     },
     "title": {
-      "text": "Escaping the Madness"
+      "text": "Freedom!"
     },
     "description": {
-      "text": "Defeat the Backrooms Boss and regain your sanity."
+      "text": "Find an escape portal and leave the Backrooms."
     },
-    "frame": "challenge",
+    "frame": "goal",
     "show_toast": true,
     "announce_to_chat": true,
-    "hidden": false
+    "hidden": true
   },
   "criteria": {
-    "boss_defeated": {
+    "escaped": {
       "trigger": "minecraft:impossible"
     }
   },
   "requirements": [
     [
-      "boss_defeated"
+      "escaped"
     ]
   ]
 }
