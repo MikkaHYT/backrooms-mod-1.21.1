@@ -3,19 +3,19 @@ package com.mikka.mod.client.renderer
 import com.mikka.mod.entity.SkinStealerEntity
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.client.Minecraft
-import net.minecraft.client.model.PlayerModel
+import net.minecraft.client.model.HumanoidModel
 import net.minecraft.client.model.geom.ModelLayers
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.entity.EntityRendererProvider
-import net.minecraft.client.renderer.entity.LivingEntityRenderer
+import net.minecraft.client.renderer.entity.MobRenderer
 import net.minecraft.client.resources.DefaultPlayerSkin
 import net.minecraft.resources.ResourceLocation
 import java.util.UUID
 
 class SkinStealerRenderer(context: EntityRendererProvider.Context) : 
-    LivingEntityRenderer<SkinStealerEntity, PlayerModel<SkinStealerEntity>>(
+    MobRenderer<SkinStealerEntity, HumanoidModel<SkinStealerEntity>>(
         context,
-        PlayerModel(context.bakeLayer(ModelLayers.PLAYER), false),
+        HumanoidModel(context.bakeLayer(ModelLayers.ZOMBIE)),
         0.5f
     ) {
     
