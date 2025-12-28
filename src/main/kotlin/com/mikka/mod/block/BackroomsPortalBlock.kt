@@ -7,7 +7,9 @@ import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
+import net.minecraft.world.level.LevelAccessor
 import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
@@ -121,10 +123,50 @@ class BackroomsPortalBlock(properties: Properties) : Block(properties) {
         builder.add(AXIS)
     }
 
+    override fun updateShape(
+        state: BlockState,
+        direction: Direction,
+        neighborState: BlockState,
+        level: LevelAccessor,
+        pos: BlockPos,
+        neighborPos: BlockPos
+    ): BlockState {
+        val axis = state.getValue(AXIS)
+        
+        // Check if the neighbor that changed is part of the portal structure
+        val isHorizontalNeighbor = (axis == Direction.Axis.X && (direction == Direction.EAST || direction == Direction.WEST)) ||
+                                   (axis == Direction.Axis.Z && (direction == Direction.NORTH || direction == Direction.SOUTH))
+        val isVerticalNeighbor = direction == Direction.UP || direction == Direction.DOWN
+        
+        if (isHorizontalNeighbor || isVerticalNeighbor) {
+            // Check if the neighbor is still a valid portal block or frame block
+            val isPortal = neighborState.`is`(ModBlocks.BACKROOMS_PORTAL)
+            val isFrame = neighborState.`is`(Blocks.QUARTZ_BLOCK)
+            
+            if (!isPortal && !isFrame && !neighborState.isAir) {
+                // Something else replaced the frame/portal - this is fine
+            } else if (neighborState.isAir) {
+                // A block was removed - check if we should break
+                // Break if bottom frame is gone or if we're now disconnected
+                if (direction == Direction.DOWN) {
+                    // Floor removed
+                    return Blocks.AIR.defaultBlockState()
+                }
+                // For horizontal neighbors in portal axis, break if it's not another portal
+                if (isHorizontalNeighbor) {
+                    return Blocks.AIR.defaultBlockState()
+                }
+            }
+        }
+        
+        return super.updateShape(state, direction, neighborState, level, pos, neighborPos)
+    }
+
     override fun entityInside(state: BlockState, level: Level, pos: BlockPos, entity: Entity) {
         if (entity.canUsePortal(false)) {
             entity.setPortalCooldown()
-            if (!level.isClientSide && level is ServerLevel) {
+            if (!level.isClientSide && level is ServerLevel && entity is net.minecraft.server.level.ServerPlayer) {
+                val player = entity
                 val resourceKey = if (level.dimension() == ModDimensions.BACKROOMS_DIMENSION_KEY) {
                     Level.OVERWORLD
                 } else {
@@ -133,8 +175,15 @@ class BackroomsPortalBlock(properties: Properties) : Block(properties) {
                 
                 val serverLevel = level.server.getLevel(resourceKey)
                 if (serverLevel != null) {
-                    var targetPos = entity.blockPosition()
+                    var targetPos = player.blockPosition()
+                    
                     if (resourceKey == ModDimensions.BACKROOMS_DIMENSION_KEY) {
+                        // Entering the Backrooms - save the entry position
+                        val persistentData = player.persistentData
+                        persistentData.putInt("BackroomsEntryX", pos.x)
+                        persistentData.putInt("BackroomsEntryY", pos.y)
+                        persistentData.putInt("BackroomsEntryZ", pos.z)
+                        
                         // Find safe spot in Backrooms
                         // Randomize X/Z to support multiplayer spawning
                         val random = net.minecraft.util.RandomSource.create()
@@ -157,20 +206,28 @@ class BackroomsPortalBlock(properties: Properties) : Block(properties) {
                         
                         targetPos = BlockPos(centerX, targetY, centerZ)
                     } else {
-                        // Going back to Overworld - find surface?
-                        // For now, just keep coordinates but ensure Y is safe
-                        targetPos = serverLevel.getHeightmapPos(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING, targetPos)
+                        // Going back to Overworld - retrieve saved entry position
+                        val persistentData = player.persistentData
+                        if (persistentData.contains("BackroomsEntryX")) {
+                            val entryX = persistentData.getInt("BackroomsEntryX")
+                            val entryY = persistentData.getInt("BackroomsEntryY")
+                            val entryZ = persistentData.getInt("BackroomsEntryZ")
+                            targetPos = BlockPos(entryX, entryY, entryZ)
+                        } else {
+                            // Fallback: spawn at world spawn
+                            targetPos = serverLevel.sharedSpawnPos
+                        }
                     }
 
                     val transition = DimensionTransition(
                         serverLevel,
                         Vec3.atBottomCenterOf(targetPos),
-                        entity.deltaMovement,
-                        entity.yRot,
-                        entity.xRot,
+                        player.deltaMovement,
+                        player.yRot,
+                        player.xRot,
                         DimensionTransition.DO_NOTHING
                     )
-                    entity.changeDimension(transition)
+                    player.changeDimension(transition)
                 }
             }
         }

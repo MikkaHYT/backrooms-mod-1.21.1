@@ -2,12 +2,16 @@ package com.mikka.mod.entity
 
 import com.mikka.mod.item.ModItems
 import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.network.chat.Component
 import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.network.syncher.SynchedEntityData
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.level.ServerBossEvent
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvents
+import net.minecraft.world.BossEvent
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier
@@ -16,7 +20,6 @@ import net.minecraft.world.entity.ai.goal.FloatGoal
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal
-import net.minecraft.world.entity.ai.goal.RandomStrollGoal
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal
 import net.minecraft.world.entity.monster.Monster
 import net.minecraft.world.entity.player.Player
@@ -25,9 +28,23 @@ import net.minecraft.world.level.Level
 
 class BackroomsBossEntity(entityType: EntityType<out Monster>, level: Level) : Monster(entityType, level) {
 
+    private var bossRoomCenterX: Int = 0
+    private var bossRoomCenterZ: Int = 0
+    private var hasBossRoomCenter: Boolean = false
+    
+    // Boss bar for players
+    private val bossEvent = ServerBossEvent(
+        Component.literal("The Backrooms Entity"),
+        BossEvent.BossBarColor.RED,
+        BossEvent.BossBarOverlay.PROGRESS
+    )
+
     companion object {
         val PHASE: EntityDataAccessor<Int> = SynchedEntityData.defineId(BackroomsBossEntity::class.java, EntityDataSerializers.INT)
         val SHIELDED: EntityDataAccessor<Boolean> = SynchedEntityData.defineId(BackroomsBossEntity::class.java, EntityDataSerializers.BOOLEAN)
+        
+        private const val BOSS_ROOM_RADIUS = 20
+        private const val BOSS_BAR_RANGE = 64.0
 
         fun createBossAttributes(): AttributeSupplier.Builder {
             return Monster.createMonsterAttributes()
@@ -40,6 +57,17 @@ class BackroomsBossEntity(entityType: EntityType<out Monster>, level: Level) : M
         }
     }
 
+    init {
+        // Make the boss persistent - it will never despawn
+        this.setPersistenceRequired(true)
+    }
+    
+    fun setBossRoomCenter(x: Int, z: Int) {
+        this.bossRoomCenterX = x
+        this.bossRoomCenterZ = z
+        this.hasBossRoomCenter = true
+    }
+
     override fun defineSynchedData(builder: SynchedEntityData.Builder) {
         super.defineSynchedData(builder)
         builder.define(PHASE, 0)
@@ -49,11 +77,31 @@ class BackroomsBossEntity(entityType: EntityType<out Monster>, level: Level) : M
     override fun registerGoals() {
         this.goalSelector.addGoal(0, FloatGoal(this))
         this.goalSelector.addGoal(1, MeleeAttackGoal(this, 1.0, true))
-        this.goalSelector.addGoal(5, RandomStrollGoal(this, 0.8))
+        // Removed RandomStrollGoal to keep boss in room
         this.goalSelector.addGoal(6, LookAtPlayerGoal(this, Player::class.java, 8.0f))
         this.goalSelector.addGoal(6, RandomLookAroundGoal(this))
 
         this.targetSelector.addGoal(1, NearestAttackableTargetGoal(this, Player::class.java, true))
+    }
+
+    // Prevent despawning
+    override fun removeWhenFarAway(distanceToClosestPlayer: Double): Boolean {
+        return false
+    }
+    
+    // Check despawn rules - boss should never despawn
+    override fun checkDespawn() {
+        // Do nothing - boss never despawns
+    }
+    
+    override fun startSeenByPlayer(player: ServerPlayer) {
+        super.startSeenByPlayer(player)
+        bossEvent.addPlayer(player)
+    }
+    
+    override fun stopSeenByPlayer(player: ServerPlayer) {
+        super.stopSeenByPlayer(player)
+        bossEvent.removePlayer(player)
     }
 
     override fun getAmbientSound() = SoundEvents.WITHER_AMBIENT
@@ -63,6 +111,26 @@ class BackroomsBossEntity(entityType: EntityType<out Monster>, level: Level) : M
     override fun tick() {
         super.tick()
         if (!this.level().isClientSide) {
+            // Update boss bar progress
+            bossEvent.progress = this.health / this.maxHealth
+            
+            // Update boss bar color based on phase
+            val phase = this.entityData.get(PHASE)
+            if (phase == 1) {
+                bossEvent.color = BossEvent.BossBarColor.YELLOW
+                bossEvent.name = Component.literal("The Backrooms Entity - ENRAGED")
+            }
+            
+            // Keep boss within boss room bounds
+            if (hasBossRoomCenter) {
+                val dx = this.x - bossRoomCenterX
+                val dz = this.z - bossRoomCenterZ
+                if (Math.abs(dx) > BOSS_ROOM_RADIUS || Math.abs(dz) > BOSS_ROOM_RADIUS) {
+                    // Teleport back to center
+                    this.teleportTo(bossRoomCenterX.toDouble() + 0.5, this.y, bossRoomCenterZ.toDouble() + 0.5)
+                }
+            }
+            
             // Phase Management
             if (this.health < this.maxHealth / 2 && this.entityData.get(PHASE) == 0) {
                 this.entityData.set(PHASE, 1)
@@ -112,6 +180,22 @@ class BackroomsBossEntity(entityType: EntityType<out Monster>, level: Level) : M
         }
     }
 
+    override fun addAdditionalSaveData(compound: net.minecraft.nbt.CompoundTag) {
+        super.addAdditionalSaveData(compound)
+        compound.putInt("BossRoomCenterX", bossRoomCenterX)
+        compound.putInt("BossRoomCenterZ", bossRoomCenterZ)
+        compound.putBoolean("HasBossRoomCenter", hasBossRoomCenter)
+    }
+
+    override fun readAdditionalSaveData(compound: net.minecraft.nbt.CompoundTag) {
+        super.readAdditionalSaveData(compound)
+        if (compound.contains("HasBossRoomCenter")) {
+            hasBossRoomCenter = compound.getBoolean("HasBossRoomCenter")
+            bossRoomCenterX = compound.getInt("BossRoomCenterX")
+            bossRoomCenterZ = compound.getInt("BossRoomCenterZ")
+        }
+    }
+
     override fun hurt(source: DamageSource, amount: Float): Boolean {
         if (source.directEntity is net.minecraft.world.entity.projectile.Projectile) {
             return false // Projectile Immunity
@@ -152,6 +236,9 @@ class BackroomsBossEntity(entityType: EntityType<out Monster>, level: Level) : M
     override fun dropCustomDeathLoot(serverLevel: ServerLevel, damageSource: DamageSource, hitByPlayer: Boolean) {
         super.dropCustomDeathLoot(serverLevel, damageSource, hitByPlayer)
         
+        // Remove boss bar
+        bossEvent.removeAllPlayers()
+        
         // Always drop boss items regardless of who killed it
         this.spawnAtLocation(ItemStack(ModItems.CORRUPTED_SWORD))
         this.spawnAtLocation(ItemStack(ModItems.LIGHTNING_STICK))
@@ -169,5 +256,10 @@ class BackroomsBossEntity(entityType: EntityType<out Monster>, level: Level) : M
                 }
             }
         }
+    }
+    
+    override fun remove(reason: RemovalReason) {
+        super.remove(reason)
+        bossEvent.removeAllPlayers()
     }
 }

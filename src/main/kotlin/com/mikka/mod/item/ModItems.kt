@@ -8,6 +8,7 @@ import net.minecraft.world.item.Item
 object ModItems {
     val CORRUPTED_SWORD = register("corrupted_sword", CorruptedSwordItem())
     val LIGHTNING_STICK = register("lightning_stick", LightningStickItem())
+    val BACKROOMS_COMPASS = register("backrooms_compass", BackroomsCompassItem())
     
     val FLICKERING_LIGHT_ITEM = register("flickering_light", net.minecraft.world.item.BlockItem(com.mikka.mod.block.ModBlocks.FLICKERING_LIGHT, net.minecraft.world.item.Item.Properties()))
     val MOIST_CARPET_ITEM = register("moist_carpet", net.minecraft.world.item.BlockItem(com.mikka.mod.block.ModBlocks.MOIST_CARPET, net.minecraft.world.item.Item.Properties()))

@@ -92,8 +92,9 @@ class BackroomsChunkGenerator(biomeSource: BiomeSource) : ChunkGenerator(biomeSo
                         // Ensure space
                         if (region.getBlockState(pos).isAir && region.getBlockState(pos.below()).isSolid) {
                             val boss = ModEntities.BACKROOMS_BOSS.create(region.level)
-                            if (boss != null) {
+                            if (boss != null && boss is com.mikka.mod.entity.BackroomsBossEntity) {
                                 boss.moveTo(bossRoomX.toDouble() + 0.5, y.toDouble(), bossRoomZ.toDouble() + 0.5, 0f, 0f)
+                                boss.setBossRoomCenter(bossRoomX, bossRoomZ)
                                 region.addFreshEntity(boss)
                             }
                         }
@@ -112,6 +113,25 @@ class BackroomsChunkGenerator(biomeSource: BiomeSource) : ChunkGenerator(biomeSo
                         // Don't spawn monsters inside boss room radius
                         if (!isBossRoom(x, z)) {
                             val entity = ModEntities.BACKROOMS_MONSTER.create(region.level)
+                            if (entity != null) {
+                                entity.moveTo(x.toDouble() + 0.5, y.toDouble(), z.toDouble() + 0.5, random.nextFloat() * 360f, 0f)
+                                region.addFreshEntity(entity)
+                            }
+                        }
+                    }
+                }
+            }
+            
+            // Skin-Stealer spawning (rare)
+            if (random.nextFloat() < 0.02f) { // 2% chance per floor per chunk
+                val x = chunkPos.minBlockX + random.nextInt(16)
+                val z = chunkPos.minBlockZ + random.nextInt(16)
+                
+                if (y > minY && y < maxY) {
+                    val pos = BlockPos(x, y, z)
+                    if (region.getBlockState(pos).isAir && region.getBlockState(pos.below()).isSolid) {
+                        if (!isBossRoom(x, z)) {
+                            val entity = ModEntities.SKIN_STEALER.create(region.level)
                             if (entity != null) {
                                 entity.moveTo(x.toDouble() + 0.5, y.toDouble(), z.toDouble() + 0.5, random.nextFloat() * 360f, 0f)
                                 region.addFreshEntity(entity)

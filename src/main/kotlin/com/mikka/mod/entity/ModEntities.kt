@@ -35,9 +35,18 @@ object ModEntities {
             .build()
     )
 
+    val SKIN_STEALER: EntityType<SkinStealerEntity> = Registry.register(
+        BuiltInRegistries.ENTITY_TYPE,
+        ResourceLocation.fromNamespaceAndPath("mikkas-mod", "skin_stealer"),
+        FabricEntityTypeBuilder.create(MobCategory.MONSTER, ::SkinStealerEntity)
+            .dimensions(EntityDimensions.fixed(0.6f, 1.8f)) // Player-sized
+            .build()
+    )
+
     fun registerEntities() {
         FabricDefaultAttributeRegistry.register(BACKROOMS_MONSTER, BackroomsMonsterEntity.createMonsterAttributes())
         FabricDefaultAttributeRegistry.register(BACKROOMS_BOSS, BackroomsBossEntity.createBossAttributes())
         FabricDefaultAttributeRegistry.register(SMILER, SmilerEntity.createSmilerAttributes())
+        FabricDefaultAttributeRegistry.register(SKIN_STEALER, SkinStealerEntity.createSkinStealerAttributes())
     }
 }

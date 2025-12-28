@@ -1,7 +1,17 @@
 {
     "item.mikkas-mod.corrupted_sword": "Corrupted Sword",
     "item.mikkas-mod.lightning_stick": "Lightning Rod",
+    "item.mikkas-mod.backrooms_compass": "Backrooms Compass",
     "entity.mikkas-mod.backrooms_boss": "Backrooms Boss",
+    "entity.mikkas-mod.backrooms_monster": "Backrooms Entity",
+    "entity.mikkas-mod.skin_stealer": "Skin Stealer",
+    "entity.mikkas-mod.smiler": "Smiler",
+    "block.mikkas-mod.flickering_light": "Flickering Light",
+    "block.mikkas-mod.moist_carpet": "Moist Carpet",
+    "block.mikkas-mod.yellow_wallpaper_var1": "Yellow Wallpaper",
+    "block.mikkas-mod.yellow_wallpaper_var2": "Yellow Wallpaper (Worn)",
+    "block.mikkas-mod.backrooms_portal": "Backrooms Portal",
+    "block.mikkas-mod.escape_portal": "Escape Portal",
     "advancements.backrooms.boss_defeated.title": "Reality Breaker",
     "advancements.backrooms.boss_defeated.description": "Defeat the ruler of the Backrooms and escape the loop."
 }

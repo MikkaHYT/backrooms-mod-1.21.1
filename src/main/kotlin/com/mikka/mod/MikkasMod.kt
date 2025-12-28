@@ -2,6 +2,7 @@ package com.mikka.mod
 
 import com.mikka.mod.block.ModBlocks
 import com.mikka.mod.item.ModItems
+import com.mikka.mod.logic.AmbientSoundSystem
 import com.mikka.mod.logic.SanitySystem
 import net.fabricmc.api.ModInitializer
 import org.slf4j.LoggerFactory
@@ -21,6 +22,7 @@ object MikkasMod : ModInitializer {
 		// Proceed with mild caution.
 		logger.info("Hello from the backrooms!")
         SanitySystem.register()
+        AmbientSoundSystem.register()
         ModBlocks.registerBlocks()
         ModItems.registerItems()
         ModEntities.registerEntities()

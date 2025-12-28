@@ -1,5 +1,7 @@
 package com.mikka.mod
 
+import com.mikka.mod.client.BackroomsFogRenderer
+import com.mikka.mod.client.renderer.SkinStealerRenderer
 import com.mikka.mod.entity.ModEntities
 import com.mikka.mod.entity.client.BackroomsBossRenderer
 import com.mikka.mod.entity.client.BackroomsMonsterModel
@@ -16,7 +18,11 @@ object MikkasModClient : ClientModInitializer {
         EntityRendererRegistry.register(ModEntities.BACKROOMS_MONSTER, ::BackroomsMonsterRenderer)
         EntityRendererRegistry.register(ModEntities.BACKROOMS_BOSS, ::BackroomsBossRenderer)
         EntityRendererRegistry.register(ModEntities.SMILER, ::SmilerRenderer)
+        EntityRendererRegistry.register(ModEntities.SKIN_STEALER, ::SkinStealerRenderer)
         EntityModelLayerRegistry.registerModelLayer(ModModelLayers.BACKROOMS_MONSTER) { BackroomsMonsterModel.createBodyLayer() }
+        
+        // Register fog renderer for backrooms dimension
+        BackroomsFogRenderer.register()
         
         net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents.END_CLIENT_TICK.register { 
             com.mikka.mod.client.ClientSoundSilencer.tick()

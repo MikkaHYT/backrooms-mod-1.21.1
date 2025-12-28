@@ -5,26 +5,41 @@ A Fabric mod for Minecraft 1.21.1 that brings the eerie and liminal world of the
 ## Features
 
 ### 🪄 Items
-- **Corrupted Sword**: An OP corrupted sword that can be acquired by killing the backrooms boss.
-- **Lightning Stick**: A stick that once acquired by defeating the backrooms boss, can be used to summon lightning wherever you are looking.
+- **Corrupted Sword**: A powerful corrupted blade acquired by defeating the Backrooms Boss.
+- **Lightning Stick**: Summon lightning wherever you look after defeating the boss.
+- **Backrooms Compass**: Navigate the endless halls - locates escape portals and boss rooms. Only works in the Backrooms dimension.
 
 ### 🧱 Blocks
-- **Backrooms Portal**: Your gateway to the unknown.
-- **Escape Portal**: Is there really a way out? 
-- **Yellow Wallpaper**: The iconic mono-yellow wallpaper, available in multiple variations. 
-- **Moist Carpet**: Squishy, damp carpet that makes you uncomfortable just looking at it. 
-- **Flickering Light**: Fluorescent lights that hum and flicker, adding to the atmosphere. 
+- **Backrooms Portal**: Your gateway to the unknown. Built with a quartz frame and activated with flint and steel.
+- **Escape Portal**: A rare salvation found deep within the Backrooms.
+- **Yellow Wallpaper**: The iconic mono-yellow wallpaper in multiple variations.
+- **Moist Carpet**: Squishy, damp carpet that slows your movement.
+- **Flickering Light**: Fluorescent lights that hum and flicker, occasionally going dark.
 
 ### 👻 Entities
 - **Backrooms Monster**: A tall, terrifying entity that stalks the endless corridors.
-- **Backrooms Boss**: A formidable foe that will test your survival skills.
+- **Backrooms Boss**: A formidable foe with 500 HP, shields, and devastating attacks. Only vulnerable to critical hits. Features a boss health bar.
+- **Skin Stealer**: A sinister entity that mimics the appearance of nearby players, stalking them before attacking.
 
 ### 🧠 Mechanics
-- **Sanity System**: You might hear or see things that are not there until the backrooms boss has been killed.
-- **Custom Dimension**: A generated Backrooms dimension with endless rooms and hallways.
+- **Sanity System**: Experience auditory and visual hallucinations until you defeat the boss.
+- **Ambient Sound System**: Constant fluorescent humming, distant footsteps, doors, and unsettling whispers.
+- **Custom Dimension**: A procedurally generated Backrooms dimension with endless rooms, hallways, and boss arenas.
+- **Fog Effect**: Limited visibility with an eerie yellowish fog that matches the Backrooms aesthetic.
 
-### 🎨 Coming In Next Update
-- **Smiler**: Beware the glowing smile in the dark. 
+### 🏆 Advancements
+- **The Backrooms**: Awarded when you first enter the Backrooms dimension.
+- **Freedom!**: Find an escape portal and return to the Overworld.
+- **Escaping the Madness**: Defeat the Backrooms Boss and regain your sanity.
+
+### 🔮 Coming Soon
+- **Smiler**: Beware the glowing smile in the dark.
+
+## How to Enter the Backrooms
+
+1. Build a portal frame using **Quartz Blocks** (similar to a Nether portal shape).
+2. Light it with **Flint and Steel**.
+3. Step through... if you dare.
 
 ## Installation
 
