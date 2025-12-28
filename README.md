@@ -11,6 +11,9 @@ A Fabric mod for Minecraft 1.21.1 that brings the eerie and liminal world of the
 ### 🧱 Blocks
 - **Backrooms Portal**: Your gateway to the unknown.
 - **Escape Portal**: Is there really a way out? 
+- **Yellow Wallpaper**: The iconic mono-yellow wallpaper, available in multiple variations. 
+- **Moist Carpet**: Squishy, damp carpet that makes you uncomfortable just looking at it. 
+- **Flickering Light**: Fluorescent lights that hum and flicker, adding to the atmosphere. 
 
 ### 👻 Entities
 - **Backrooms Monster**: A tall, terrifying entity that stalks the endless corridors.
@@ -21,9 +24,6 @@ A Fabric mod for Minecraft 1.21.1 that brings the eerie and liminal world of the
 - **Custom Dimension**: A generated Backrooms dimension with endless rooms and hallways.
 
 ### 🎨 Coming In Next Update
-- **Yellow Wallpaper**: The iconic mono-yellow wallpaper, available in multiple variations. 
-- **Moist Carpet**: Squishy, damp carpet that makes you uncomfortable just looking at it. 
-- **Flickering Light**: Fluorescent lights that hum and flicker, adding to the atmosphere. 
 - **Smiler**: Beware the glowing smile in the dark. 
 
 ## Installation
