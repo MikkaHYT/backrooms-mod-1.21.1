@@ -156,9 +156,11 @@ class BackroomsChunkGenerator(biomeSource: BiomeSource) : ChunkGenerator(biomeSo
         val seed = 12345L // Fixed seed for consistency
         
         val floorBlock = Blocks.SMOOTH_SANDSTONE.defaultBlockState()
-        val wallBlock = Blocks.CUT_SANDSTONE.defaultBlockState()
+        val carpetBlock = ModBlocks.MOIST_CARPET.defaultBlockState()
+        val wallBlock1 = ModBlocks.YELLOW_WALLPAPER_VAR1.defaultBlockState()
+        val wallBlock2 = ModBlocks.YELLOW_WALLPAPER_VAR2.defaultBlockState()
         val ceilingBlock = Blocks.SMOOTH_STONE.defaultBlockState()
-        val lightBlock = Blocks.OCHRE_FROGLIGHT.defaultBlockState()
+        val lightBlock = ModBlocks.FLICKERING_LIGHT.defaultBlockState()
         val bedrock = Blocks.BEDROCK.defaultBlockState()
 
         val pos = BlockPos.MutableBlockPos()
@@ -170,6 +172,9 @@ class BackroomsChunkGenerator(biomeSource: BiomeSource) : ChunkGenerator(biomeSo
         
         val levelHeight = 8 // Floor to Floor
         val roomHeight = 6 // Floor to Ceiling
+        
+        // Random for this chunk
+        val chunkRandom = java.util.Random(seed + chunkPos.x * 341873128712L + chunkPos.z * 132897987541L)
         
         for (x in 0 until 16) {
             for (z in 0 until 16) {
@@ -197,6 +202,14 @@ class BackroomsChunkGenerator(biomeSource: BiomeSource) : ChunkGenerator(biomeSo
                     if (floorY > minY && floorY < maxY) {
                         if (!isBossColumn || isBossFloor) {
                             chunk.setBlockState(pos.set(x, floorY, z), floorBlock, false)
+                            
+                            // Place moist carpet on top of floor (30% chance)
+                            val carpetHash = (worldX * 7123 + worldZ * 9411 + levelIndex * 3231).hashCode()
+                            if (Math.abs(carpetHash) % 100 < 30 && !isWall(worldX, worldZ, levelIndex, seed)) {
+                                if (floorY + 1 > minY && floorY + 1 < maxY) {
+                                    chunk.setBlockState(pos.set(x, floorY + 1, z), carpetBlock, false)
+                                }
+                            }
                         }
                     }
                     
@@ -208,18 +221,22 @@ class BackroomsChunkGenerator(biomeSource: BiomeSource) : ChunkGenerator(biomeSo
                         }
                     }
                     
-                    // Walls
+                    // Walls - use yellow wallpaper variants
                     if (isWall(worldX, worldZ, levelIndex, seed)) {
                         for (y in (floorY + 1) until ceilingY) {
-                            if (y > minY && y < maxY)
-                                chunk.setBlockState(pos.set(x, y, z), wallBlock, false)
+                            if (y > minY && y < maxY) {
+                                // Alternate between wallpaper variants based on position
+                                val wallVariant = if ((worldX + worldZ + y) % 2 == 0) wallBlock1 else wallBlock2
+                                chunk.setBlockState(pos.set(x, y, z), wallVariant, false)
+                            }
                         }
                     }
                     
-                    // Occasional Lights
+                    // Flickering Lights on ceiling (replacing ochre froglight)
                     if (!isBossColumn && !isWall(worldX, worldZ, levelIndex, seed) && (worldX % 10 == 0) && (worldZ % 10 == 0)) {
-                         if (ceilingY > minY && ceilingY < maxY)
+                         if (ceilingY > minY && ceilingY < maxY) {
                             chunk.setBlockState(pos.set(x, ceilingY, z), lightBlock, false)
+                         }
                     }
                     
                     // Escape Portal - Extremely Rare
