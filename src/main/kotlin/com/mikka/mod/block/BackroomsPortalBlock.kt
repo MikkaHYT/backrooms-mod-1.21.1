@@ -19,12 +19,29 @@ import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.VoxelShape
 
 import net.minecraft.world.level.portal.DimensionTransition
+import java.util.UUID
+import java.util.concurrent.ConcurrentHashMap
 
 class BackroomsPortalBlock(properties: Properties) : Block(properties) {
     companion object {
         val AXIS: EnumProperty<Direction.Axis> = BlockStateProperties.HORIZONTAL_AXIS
         val X_AABB: VoxelShape = Block.box(0.0, 0.0, 6.0, 16.0, 16.0, 10.0)
         val Z_AABB: VoxelShape = Block.box(6.0, 0.0, 0.0, 10.0, 16.0, 16.0)
+        
+        // Store player entry positions (UUID -> BlockPos)
+        private val playerEntryPositions = ConcurrentHashMap<UUID, BlockPos>()
+        
+        fun setPlayerEntryPosition(playerUUID: UUID, pos: BlockPos) {
+            playerEntryPositions[playerUUID] = pos
+        }
+        
+        fun getPlayerEntryPosition(playerUUID: UUID): BlockPos? {
+            return playerEntryPositions[playerUUID]
+        }
+        
+        fun clearPlayerEntryPosition(playerUUID: UUID) {
+            playerEntryPositions.remove(playerUUID)
+        }
 
         fun trySpawnPortal(level: net.minecraft.world.level.LevelAccessor, pos: BlockPos) {
              // 1. Determine Axis
@@ -178,11 +195,8 @@ class BackroomsPortalBlock(properties: Properties) : Block(properties) {
                     var targetPos = player.blockPosition()
                     
                     if (resourceKey == ModDimensions.BACKROOMS_DIMENSION_KEY) {
-                        // Entering the Backrooms - save the entry position using player's custom data
-                        val customData = player.customData
-                        customData.putInt("BackroomsEntryX", pos.x)
-                        customData.putInt("BackroomsEntryY", pos.y)
-                        customData.putInt("BackroomsEntryZ", pos.z)
+                        // Entering the Backrooms - save the entry position using static map
+                        setPlayerEntryPosition(player.uuid, pos)
                         
                         // Find safe spot in Backrooms
                         // Randomize X/Z to support multiplayer spawning
@@ -207,12 +221,10 @@ class BackroomsPortalBlock(properties: Properties) : Block(properties) {
                         targetPos = BlockPos(centerX, targetY, centerZ)
                     } else {
                         // Going back to Overworld - retrieve saved entry position
-                        val customData = player.customData
-                        if (customData.contains("BackroomsEntryX")) {
-                            val entryX = customData.getInt("BackroomsEntryX")
-                            val entryY = customData.getInt("BackroomsEntryY")
-                            val entryZ = customData.getInt("BackroomsEntryZ")
-                            targetPos = BlockPos(entryX, entryY, entryZ)
+                        val entryPos = getPlayerEntryPosition(player.uuid)
+                        if (entryPos != null) {
+                            targetPos = entryPos
+                            clearPlayerEntryPosition(player.uuid)
                         } else {
                             // Fallback: spawn at world spawn
                             targetPos = serverLevel.sharedSpawnPos
